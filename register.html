@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | Indigent Support</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f6f6f6;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .content {
+      width: 100%;
+      max-width: 420px;
+    }
+    .logo {
+      width: 100px;
+      display: block;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      margin: 12px 0;
+    }
+    .btn {
+      width: 100%;
+      background: black;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .bottom-text {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='black'/><text x='50%' y='55%' fill='white' font-size='12' text-anchor='middle'>InDigee</text></svg>" class="logo" alt="Logo" />
+    <h2>Register Profile</h2>
+
+    <div class="form" id="register-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="reg-id">SA ID Number *</label>
+          <input type="text" id="reg-id" placeholder="13-digit SA ID" />
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" placeholder="email@example.com" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="reg-cell">Cellphone *</label>
+          <input type="text" id="reg-cell" placeholder="Phone number" />
+        </div>
+        <div class="form-group">
+          <label for="reg-alt">Alternative Number</label>
+          <input type="text" id="reg-alt" placeholder="Alt phone (optional)" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="reg-pass">Password *</label>
+          <input type="password" id="reg-pass" placeholder="Minimum 5 characters" />
+        </div>
+        <div class="form-group">
+          <label for="reg-confirm">Confirm Password *</label>
+          <input type="password" id="reg-confirm" placeholder="Repeat password" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Are you the Account Owner? *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="owner" value="yes" /> Yes</label>
+          <label><input type="radio" name="owner" value="no" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="reg-muni">Municipality *</label>
+        <select id="reg-muni">
+          <option value="">Select your municipality</option>
+          <option value="city1">City A</option>
+          <option value="city2">City B</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="validateRegister()">Submit</button>
+      <p class="bottom-text">Already Registered? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    function validateRegister() {
+      const id = document.getElementById("reg-id").value.trim();
+      const cell = document.getElementById("reg-cell").value.trim();
+      const pass = document.getElementById("reg-pass").value;
+      const confirm = document.getElementById("reg-confirm").value;
+      const muni = document.getElementById("reg-muni").value;
+      const owner = document.querySelector("input[name='owner']:checked");
+
+      if (!/^\d{13}$/.test(id)) return alert("SA ID must be exactly 13 digits.");
+      if (cell.length < 8) return alert("Enter a valid cellphone number.");
+      if (pass.length < 5) return alert("Password must be at least 5 characters.");
+      if (pass !== confirm) return alert("Passwords do not match.");
+      if (!owner) return alert("Please select if you are the account owner.");
+      if (!muni) return alert("Please select a municipality.");
+
+      alert("Registration successful! (Mock)");
+    }
+  </script>
+</body>
+</html>
