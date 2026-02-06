@@ -202,20 +202,16 @@
 
       <form id="login-form" class="form-grid">
         <div class="field">
-          <label for="sa-id" class="sr-only">SA ID Number (required)</label>
+          <label for="sa-id" class="sr-only">SA ID Number</label>
           <input
             class="tile"
             type="text"
             id="sa-id"
             name="sa_id"
             inputmode="numeric"
-            minlength="13"
-            maxlength="13"
-            pattern="\\d{13}"
             placeholder="SA ID Number"
-            required
           />
-          <p class="hint">13-digit ID number as per Home Affairs</p>
+          <p class="hint">SA ID number (if you have one)</p>
         </div>
 
         <div class="field">
@@ -230,17 +226,15 @@
         </div>
 
         <div class="field full">
-          <label for="password" class="sr-only">Password (required)</label>
+          <label for="password" class="sr-only">Password</label>
           <input
             class="tile"
             type="password"
             id="password"
             name="password"
-            minlength="5"
             placeholder="Password"
-            required
           />
-          <p class="hint">Minimum 5 characters</p>
+          <p class="hint">Enter your password</p>
         </div>
 
         <div class="actions full">
@@ -258,29 +252,9 @@
       loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        if (!loginForm.checkValidity()) {
-          loginForm.reportValidity();
-          return;
-        }
-
         const saId = loginForm.elements.sa_id.value.trim();
         const email = loginForm.elements.email.value.trim().toLowerCase();
         const password = loginForm.elements.password.value.trim();
-
-        if (!saId && !email) {
-          alert("Enter your SA ID or Email Address.");
-          return;
-        }
-
-        if (saId && !/^\d{13}$/.test(saId)) {
-          alert("Enter a valid 13-digit SA ID.");
-          return;
-        }
-
-        if (password.length < 5) {
-          alert("Password must be at least 5 characters.");
-          return;
-        }
 
         const storedUsers = JSON.parse(localStorage.getItem("indigeeUsers") || "[]");
         const matchedUser = storedUsers.find((user) => {

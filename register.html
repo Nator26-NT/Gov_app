@@ -12,8 +12,11 @@
   <style>
     body {
       background-image: url("InDigee-Background-Image.png");
-
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
+
       -webkit-backdrop-filter: blur(10px);
     .glass-hover:hover {
       backdrop-filter: blur(8px);
@@ -21,10 +24,7 @@
   </style>
 </head>
 
-<body
-  class="min-h-screen flex items-center justify-center bg-cover bg-center"
-  style="background-image: url('InDigee-Background-Image.png');"
->
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center">
   <!-- INNER FORM CARD -->
   <div class="bg-white/45 backdrop-blur-md border border-black/10 rounded-2xl px-10 py-6 w-[720px] max-w-full">
 
@@ -42,11 +42,6 @@
           id="sa-id"
           name="sa_id"
           inputmode="numeric"
-          minlength="13"
-          maxlength="13"
-          pattern="\\d{13}"
-          title="Enter a valid 13-digit South African ID number."
-          required
         />
 
         <input
@@ -64,11 +59,6 @@
           id="cellphone"
           name="cellphone"
           inputmode="tel"
-          minlength="10"
-          maxlength="12"
-          pattern="\\+27\\d{9}|0\\d{9}"
-          title="Use +27 followed by 9 digits (e.g., +27821234567) or 0 followed by 9 digits."
-          required
         />
 
         <input
@@ -78,10 +68,6 @@
           id="alt-number"
           name="alt_number"
           inputmode="tel"
-          minlength="10"
-          maxlength="12"
-          pattern="\\+27\\d{9}|0\\d{9}"
-          title="Use +27 followed by 9 digits (e.g., +27821234567) or 0 followed by 9 digits."
         />
 
         <input
@@ -90,9 +76,6 @@
           class="tile"
           id="password"
           name="password"
-          minlength="8"
-          title="Password must be at least 8 characters."
-          required
         />
 
         <input
@@ -101,19 +84,16 @@
           class="tile"
           id="confirm-password"
           name="confirm_password"
-          minlength="8"
-          required
         />
 
         <!-- Account Owner -->
         <div class="col-span-2">
           <label class="block font-semibold text-black mb-4">
             Are you the Account Owner?
-            <span class="text-red-600">*</span>
           </label>
           <div class="flex justify-start gap-10">
             <label class="flex items-center gap-2 font-semibold text-black">
-              <input type="radio" name="owner" class="accent-black" required />
+              <input type="radio" name="owner" class="accent-black" />
               Yes
             </label>
             <label class="flex items-center gap-2 font-semibold text-black">
@@ -127,9 +107,8 @@
         <div class="col-span-2">
           <label class="block font-semibold text-black mb-4">
             Municipality
-            <span class="text-red-600">*</span>
           </label>
-          <select class="tile" id="municipality" name="municipality" required>
+          <select class="tile" id="municipality" name="municipality">
             <option value="">Select Municipality</option>
             <option>City One</option>
             <option>City Two</option>
