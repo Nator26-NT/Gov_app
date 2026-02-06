@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Dashboard | InDigee</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+      background-image: url("../InDigee-Background-Image.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #000;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 28px;
+      padding: 28px;
+    }
+
+    .sidebar {
+      background: rgba(230, 230, 230, 0.75);
+      border-radius: 24px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      align-self: start;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 24px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+      transform: rotate(45deg);
+    }
+
+    .logo-mark span {
+      display: block;
+      background: #000;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #000;
+      background: #e5e5e5;
+    }
+
+    .search input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .sidebar-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      background: #000;
+      color: #fff;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .sidebar-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .section-title {
+      font-weight: 800;
+      font-size: 18px;
+      margin: 4px 0 4px;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid #000;
+      position: relative;
+    }
+
+    .nav-icon::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 2px;
+      background: #000;
+      left: 3px;
+      top: 7px;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
+    .top-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+    }
+
+    .top-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .top-btn.dark {
+      background: #000;
+      color: #fff;
+    }
+
+    .top-btn.light {
+      background: #dcdcdc;
+      color: #000;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #777;
+      display: inline-block;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 24px;
+      padding: 28px 32px;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+      min-height: 720px;
+    }
+
+    .content-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 10px 0 24px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .action-card {
+      background: rgba(220, 220, 220, 0.7);
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: left;
+    }
+
+    .action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .action-title {
+      font-weight: 800;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .action-desc {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .recent-card {
+      border: 1px solid rgba(0, 0, 0, 0.6);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .recent-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 14px;
+    }
+
+    .recent-row {
+      background: rgba(220, 220, 220, 0.7);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .status-pill {
+      background: #cfcfcf;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-weight: 700;
+    }
+
+    .small-btn {
+      border: none;
+      background: #000;
+      color: #fff;
+      border-radius: 10px;
+      padding: 6px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .small-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .check-icon {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      margin-top: -2px;
+    }
+
+    .view-hidden {
+      display: none;
+    }
+
+    .step-label {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    .form-title {
+      margin: 0 0 4px;
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .form-subtitle {
+      margin: 0 0 18px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: span 2;
+    }
+
+    .field label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #cfcfcf;
+      background: rgba(229, 229, 229, 0.7);
+      font-weight: 600;
+      outline: none;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field input::placeholder {
+      color: rgba(0, 0, 0, 0.7);
+      font-weight: 600;
+    }
+
+    .field input:hover,
+    .field select:hover {
+      background: rgba(222, 222, 222, 0.8);
+      border-color: #000;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-actions {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 140px 1fr 220px;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .ghost-btn {
+      border: none;
+      background: #d9d9d9;
+      color: #000;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .ghost-btn:hover {
+      opacity: 0.85;
+    }
+
+    .primary-btn {
+      border: none;
+      background: #000;
+      color: #fff;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      justify-self: end;
+      transition: opacity 0.2s ease;
+    }
+
+    .primary-btn:hover {
+      opacity: 0.9;
+    }
+
+    .info-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(200, 200, 200, 0.85);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 600;
+      margin: 14px 0;
+    }
+
+    .progress-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(200, 200, 200, 0.85);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 600;
+      margin: 14px 0;
+    }
+
+    .progress-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-pill {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 4px 10px;
+      font-weight: 700;
+    }
+
+    .info-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .member-card {
+      margin-top: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      border-radius: 14px;
+      padding: 14px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.6);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .member-card:hover {
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .member-title {
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 18px;
+    }
+
+    .trash-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .dotted-add {
+      margin: 12px 0 16px;
+      border: 2px dotted #000;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      font-weight: 700;
+      background: rgba(230, 230, 230, 0.7);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .dotted-add:hover {
+      background: rgba(222, 222, 222, 0.85);
+      transform: translateY(-1px);
+    }
+
+    .income-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+      margin-top: 8px;
+    }
+
+    .income-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid #000;
+      background: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .income-option:hover {
+      background: rgba(222, 222, 222, 0.8);
+      border-color: #000;
+      transform: translateY(-1px);
+    }
+
+    .doc-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto;
+      gap: 14px;
+      align-items: center;
+      background: rgba(200, 200, 200, 0.75);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .doc-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .doc-title {
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .doc-sub {
+      margin: 2px 0 0;
+      font-size: 13px;
+    }
+
+    .doc-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .doc-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .doc-btn.dark {
+      background: #000;
+      color: #fff;
+    }
+
+    .doc-btn.light {
+      background: #dcdcdc;
+      color: #000;
+      border: 1px solid #000;
+    }
+
+    .doc-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    .doc-item[data-uploaded="false"] .doc-check {
+      opacity: 0;
+    }
+
+    .doc-dotted {
+      border: 2px dotted #000;
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 18px;
+      align-items: center;
+      background: rgba(230, 230, 230, 0.7);
+      margin: 16px 0 18px;
+    }
+
+    .doc-dotted .doc-icon {
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+    }
+
+    .doc-dotted .doc-btn {
+      min-width: 140px;
+      padding: 10px 18px;
+    }
+
+    .doc-dotted .doc-btn.light {
+      background: #e5e5e5;
+    }
+
+    .review-card {
+      border: 1px solid rgba(0, 0, 0, 0.6);
+      border-radius: 16px;
+      padding: 16px;
+      margin: 14px 0;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .review-section {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      margin-bottom: 12px;
+    }
+
+    .review-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .review-title {
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 20px;
+      font-size: 14px;
+    }
+
+    .review-grid p {
+      margin: 2px 0;
+    }
+
+    .edit-badge {
+      border: 1px solid #000;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-weight: 700;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e5e5e5;
+      height: fit-content;
+    }
+
+    .review-list {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .review-list li::before {
+      content: "•";
+      margin-right: 6px;
+    }
+
+    .doc-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 20px;
+      font-size: 14px;
+    }
+
+    .doc-checklist span::before {
+      content: "✓";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #000;
+      color: #fff;
+      font-size: 11px;
+      text-align: center;
+      margin-right: 8px;
+      line-height: 16px;
+    }
+
+    .confirm-box {
+      background: rgba(220, 220, 220, 0.85);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin: 18px 0 22px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .confirm-box input {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      background: transparent;
+      appearance: none;
+    }
+
+    .review-actions {
+      grid-template-columns: 200px 1fr 240px;
+      margin-top: 10px;
+    }
+
+    .review-actions .ghost-btn {
+      padding: 12px 18px;
+      border-radius: 14px;
+    }
+
+    .review-actions .primary-btn {
+      border-radius: 14px;
+      padding: 14px 20px;
+    }
+
+    .success-title {
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+      margin: 6px 0 10px;
+    }
+
+    .success-subtitle {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+
+    .ref-card {
+      background: rgba(200, 200, 200, 0.85);
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-align: center;
+      margin: 16px auto 22px;
+      max-width: 620px;
+    }
+
+    .ref-card .ref-number {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 8px 0 6px;
+      letter-spacing: 1px;
+    }
+
+    .info-tiles {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 10px 0 20px;
+    }
+
+    .info-tile {
+      border: 2px solid rgba(0, 0, 0, 0.55);
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .info-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #000;
+      margin: 0 auto 12px;
+    }
+
+    .info-tile strong {
+      display: block;
+      font-size: 28px;
+    }
+
+    .notify-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      background: rgba(220, 220, 220, 0.85);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+
+    .notify-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #000;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .toggle {
+      width: 50px;
+      height: 26px;
+      border-radius: 999px;
+      background: #000;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .toggle .toggle-knob {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle.is-on {
+      background: #000;
+    }
+
+    .toggle.is-on .toggle-knob {
+      transform: translateX(24px);
+    }
+
+    .toggle.is-off {
+      background: #7a7a7a;
+    }
+
+    .toggle:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 3px;
+    }
+
+    .track-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      background: #000;
+      color: #fff;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: opacity 0.2s ease;
+    }
+
+    .track-btn:hover {
+      opacity: 0.9;
+    }
+
+    .radio-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      display: inline-block;
+    }
+
+    .select-input {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, #000 50%),
+        linear-gradient(135deg, #000 50%, transparent 50%);
+      background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 36px;
+    }
+
+    @media (max-width: 1100px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        order: 2;
+      }
+
+      .content-card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .recent-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: span 1;
+      }
+
+      .form-actions {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+      }
+
+      .primary-btn {
+        justify-self: stretch;
+      }
+
+      .member-grid,
+      .income-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .doc-dotted {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="logo-mark" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        InDigee
+      </div>
+
+      <label class="search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.5" y2="16.5"></line>
+        </svg>
+        <input type="text" placeholder="Search" />
+      </label>
+
+      <button class="sidebar-btn" type="button">Dashboard</button>
+
+      <div>
+        <div class="section-title">Application</div>
+        <ul class="nav-list">
+          <li class="nav-item"><span class="nav-icon"></span>Personal Details</li>
+          <li class="nav-item"><span class="nav-icon"></span>Household Members</li>
+          <li class="nav-item"><span class="nav-icon"></span>Documents</li>
+          <li class="nav-item"><span class="nav-icon"></span>Messages</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="section-title">Tracking</div>
+        <ul class="nav-list">
+          <li class="nav-item"><span class="nav-icon"></span>Tracker</li>
+          <li class="nav-item"><span class="nav-icon"></span>Renew Existing</li>
+          <li class="nav-item"><span class="nav-icon"></span>Check Status</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="section-title">Help &amp; Support</div>
+        <ul class="nav-list">
+          <li class="nav-item"><span class="nav-icon"></span>Account Settings</li>
+          <li class="nav-item"><span class="nav-icon"></span>Help Centre</li>
+          <li class="nav-item"><span class="nav-icon"></span>Support</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <button class="top-btn dark" type="button">
+          <span class="check-icon"></span>
+          English
+        </button>
+        <button class="top-btn light" type="button">
+          <span class="check-icon"></span>
+          Teboho Khasoane
+          <span class="avatar"></span>
+        </button>
+        <a class="top-btn dark" href="login.html">Log out</a>
+      </div>
+
+      <section class="content-card">
+        <div id="dashboard-view">
+          <div class="content-title">Application Dashboard</div>
+
+          <div class="action-grid">
+            <button class="action-card" id="new-app-btn" type="button">
+              <div class="action-icon">+</div>
+              <h3 class="action-title">New Application</h3>
+              <p class="action-desc">Start a new indigent support application</p>
+            </button>
+            <div class="action-card">
+              <div class="action-icon">↺</div>
+              <h3 class="action-title">Renew Existing</h3>
+              <p class="action-desc">Renew your current indigent status</p>
+            </div>
+            <div class="action-card">
+              <div class="action-icon">⏱</div>
+              <h3 class="action-title">Check Status</h3>
+              <p class="action-desc">Track your application progress</p>
+            </div>
+          </div>
+
+          <div class="recent-card">
+            <div class="recent-title">Recent Applications</div>
+            <div class="recent-row">
+              <div class="action-icon">⏱</div>
+              <div>
+                <div><strong>Application #IND-2026-789456</strong></div>
+                <div>Submitted: Jan 15, 2026</div>
+              </div>
+              <div class="status-pill">Under Review</div>
+              <button class="small-btn" type="button">View</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="application-view" class="view-hidden">
+          <div class="step-label">Step 1 of 4 - Personal Details</div>
+          <div class="form-title">Personal Details</div>
+          <div class="form-subtitle">Please provide information about the head of household</div>
+
+          <form class="form-grid">
+            <div class="field">
+              <label>First Name *</label>
+              <input type="text" />
+            </div>
+            <div class="field">
+              <label>Last Name *</label>
+              <input type="text" />
+            </div>
+            <div class="field full">
+              <label>ID Number *</label>
+              <input type="text" />
+            </div>
+            <div class="field full">
+              <label>Date of Birth *</label>
+              <input type="text" placeholder="yyyy/mm/dd" />
+            </div>
+            <div class="field">
+              <label>Phone Number *</label>
+              <input type="text" />
+            </div>
+            <div class="field">
+              <label>Email Address</label>
+              <input type="email" />
+            </div>
+            <div class="field full">
+              <label>Physical Address *</label>
+              <input type="text" />
+            </div>
+            <div class="field">
+              <input type="text" placeholder="City" />
+            </div>
+            <div class="field">
+              <input type="text" placeholder="Province" />
+            </div>
+            <div class="field">
+              <input type="text" placeholder="Postal code" />
+            </div>
+          </form>
+
+          <div class="form-actions">
+            <button class="ghost-btn" id="back-btn" type="button">Back</button>
+            <div></div>
+            <button class="primary-btn" id="continue-btn" type="button">Save &amp; Continue</button>
+          </div>
+        </div>
+
+        <div id="application-step2" class="view-hidden">
+          <div class="step-label">Step 2 of 4 - Household Information</div>
+          <div class="form-title">Household Information</div>
+          <div class="form-subtitle">Provide details about all household members</div>
+
+          <div class="info-banner">
+            <span class="info-icon">i</span>
+            Child-headed households should list the oldest child as the head of household
+          </div>
+
+          <form class="form-grid">
+            <div class="field full">
+              <label>Number of Dependents *</label>
+              <input type="text" />
+            </div>
+          </form>
+
+          <div class="member-card">
+            <div class="trash-icon">🗑</div>
+            <div class="member-title">Household Member 1</div>
+            <div class="member-grid">
+              <div class="field">
+                <label>First Name *</label>
+                <input type="text" />
+              </div>
+              <div class="field">
+                <label>Age *</label>
+                <input type="text" />
+              </div>
+              <div class="field">
+                <label>Relationship</label>
+                <select class="select-input">
+                  <option>Relationship</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Employment Status</label>
+                <select class="select-input">
+                  <option>Employment Status</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="dotted-add">+ Add another household member</div>
+
+          <div class="field">
+            <label>Total Household Income *</label>
+          </div>
+          <div class="income-grid">
+            <div class="income-option"><span class="radio-dot"></span> R0 - R1,500</div>
+            <div class="income-option"><span class="radio-dot"></span> R1,501 - R3,000</div>
+            <div class="income-option"><span class="radio-dot"></span> R3,001 - R5,090</div>
+            <div class="income-option"><span class="radio-dot"></span> Above R5,090</div>
+          </div>
+
+          <div class="form-actions">
+            <button class="ghost-btn" id="step2-back-btn" type="button">Back</button>
+            <div></div>
+            <button class="primary-btn" id="step2-continue-btn" type="button">Save &amp; Continue</button>
+          </div>
+        </div>
+
+        <div id="application-step3" class="view-hidden">
+          <div class="step-label">Step 3 of 4 - Document Upload</div>
+          <div class="form-title">Upload Documents</div>
+          <div class="form-subtitle">
+            Please upload the required documents to support your application
+          </div>
+
+          <div class="progress-banner">
+            <div class="progress-left">
+              <span class="info-icon">i</span>
+              Progress: <span id="progress-count">3</span> of <span id="progress-total">4</span> documents uploaded
+            </div>
+            <span class="progress-pill" id="progress-percent">75%</span>
+          </div>
+
+          <div class="field">
+            <label>Number of Dependents *</label>
+          </div>
+
+          <div class="doc-row doc-item" data-doc="id" data-required="true" data-uploaded="false">
+            <div class="doc-icon">ID</div>
+            <div>
+              <p class="doc-title">ID Document</p>
+              <p class="doc-sub">Front and back of ID card</p>
+            </div>
+            <button class="doc-btn light upload-btn" type="button">Take Photo</button>
+            <button class="doc-btn light upload-btn" type="button">Upload File</button>
+            <span class="doc-check">✓</span>
+          </div>
+
+          <div class="doc-row doc-item" data-doc="income" data-required="true" data-uploaded="false">
+            <div class="doc-icon">🧾</div>
+            <div>
+              <p class="doc-title">Proof of Income</p>
+              <p class="doc-sub">Payslips or unemployment affidavit</p>
+            </div>
+            <button class="doc-btn light upload-btn" type="button">Take Photo</button>
+            <button class="doc-btn light upload-btn" type="button">Upload File</button>
+            <span class="doc-check">✓</span>
+          </div>
+
+          <div class="doc-row doc-item" data-doc="residence" data-required="true" data-uploaded="false">
+            <div class="doc-icon">🏠</div>
+            <div>
+              <p class="doc-title">Proof of Residence</p>
+              <p class="doc-sub">Utility bill or lease agreement</p>
+            </div>
+            <button class="doc-btn light upload-btn" type="button">Take Photo</button>
+            <button class="doc-btn light upload-btn" type="button">Upload File</button>
+            <span class="doc-check">✓</span>
+          </div>
+
+          <div class="doc-dotted doc-item" data-doc="additional" data-required="true" data-uploaded="false">
+            <div class="doc-icon">📄</div>
+            <div>
+              <p class="doc-title">Additional Documents</p>
+              <p class="doc-sub">Death certificate, pension slip (if applicable)</p>
+            </div>
+            <button class="doc-btn light upload-btn" type="button">Take Photo</button>
+            <button class="doc-btn light upload-btn" type="button">Upload File</button>
+            <span class="doc-check">✓</span>
+          </div>
+
+          <div class="form-actions">
+            <button class="ghost-btn" id="step3-back-btn" type="button">Back</button>
+            <div></div>
+            <button class="primary-btn" id="step3-continue-btn" type="button">Save &amp; Continue</button>
+          </div>
+        </div>
+
+        <div id="application-step4" class="view-hidden">
+          <div class="step-label">Step 4 of 4 - Document Upload</div>
+          <div class="form-title">Review &amp; Submit</div>
+          <div class="form-subtitle">
+            Please review your application before submitting
+          </div>
+
+          <div class="review-card">
+            <div class="review-section">
+              <div>
+                <p class="review-title">Personal Details</p>
+                <div class="review-grid">
+                  <div>
+                    <p><strong>Full Name:</strong> Lefutso Tladi</p>
+                    <p><strong>Phone:</strong> +27 82 123 4567</p>
+                    <p><strong>Address:</strong> 123 Main Street, Bloemfontein, Free State, 9399</p>
+                  </div>
+                  <div>
+                    <p><strong>ID Number:</strong> 8512045678901</p>
+                    <p><strong>Email:</strong> lefutso.tladi@email.com</p>
+                  </div>
+                </div>
+              </div>
+              <span class="edit-badge">✎ Edit</span>
+            </div>
+
+            <div class="review-section">
+              <div>
+                <p class="review-title">Household Information</p>
+                <div class="review-grid">
+                  <div>
+                    <p><strong>Number of Dependents:</strong> 3</p>
+                    <p><strong>Total Household Income:</strong> R3,001 - R5,090</p>
+                  </div>
+                  <div>
+                    <p><strong>Household Members:</strong></p>
+                    <ul class="review-list">
+                      <li>Maki Tladi (32) - Spouse - Unemployed</li>
+                      <li>Sarah Tladi (12) - Child - Student</li>
+                      <li>Thabo Tladi (8) - Child - Student</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <span class="edit-badge">✎ Edit</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-section">
+              <div>
+                <p class="review-title">Documents</p>
+                <div class="doc-checklist">
+                  <span>ID Document</span>
+                  <span>Proof of Residence</span>
+                  <span>Proof of Income</span>
+                  <span>Additional Documents</span>
+                </div>
+              </div>
+              <span class="edit-badge">✎ Edit</span>
+            </div>
+          </div>
+
+          <div class="confirm-box">
+            <input type="checkbox" />
+            <p>
+              I confirm that all information provided is true and accurate. I understand that providing
+              false information may lead to penalties and disqualification from receiving indigent support
+              services.
+            </p>
+          </div>
+
+          <div class="form-actions review-actions">
+            <button class="ghost-btn" id="step4-back-btn" type="button">Submit later</button>
+            <div></div>
+            <button class="primary-btn" id="submit-btn" type="button">Continue</button>
+          </div>
+        </div>
+
+        <div id="application-success" class="view-hidden">
+          <div class="success-title">Application Submitted!</div>
+          <div class="success-subtitle">
+            Your application has been successfully submitted to Mangaung Municipality
+          </div>
+
+          <div class="ref-card">
+            <div>Your Reference Number</div>
+            <div class="ref-number">IND-2026-789456</div>
+            <div>Please save this number for tracking your application</div>
+          </div>
+
+          <div class="info-tiles">
+            <div class="info-tile">
+              <div class="info-dot"></div>
+              <div>Estimated Review Time</div>
+              <strong>14-21 days</strong>
+            </div>
+            <div class="info-tile">
+              <div class="info-dot"></div>
+              <div>Submitted Date</div>
+              <strong>Jan 26, 2026</strong>
+            </div>
+          </div>
+
+          <div class="notify-card">
+            <div class="notify-icon">🔔</div>
+            <div>
+              <div><strong>Notifications (SMS / WhatsApp)</strong></div>
+              <div>Get updates on your application status</div>
+            </div>
+            <button
+              class="toggle is-on"
+              id="notify-toggle"
+              type="button"
+              role="switch"
+              aria-checked="true"
+              aria-label="Notifications for SMS and WhatsApp"
+            >
+              <span class="toggle-knob"></span>
+            </button>
+          </div>
+
+          <button class="track-btn" id="track-btn" type="button">
+            🔍 Track my application
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const newAppBtn = document.getElementById("new-app-btn");
+    const backBtn = document.getElementById("back-btn");
+    const continueBtn = document.getElementById("continue-btn");
+    const step2BackBtn = document.getElementById("step2-back-btn");
+    const step2ContinueBtn = document.getElementById("step2-continue-btn");
+    const step3BackBtn = document.getElementById("step3-back-btn");
+    const step3ContinueBtn = document.getElementById("step3-continue-btn");
+    const step4BackBtn = document.getElementById("step4-back-btn");
+    const submitBtn = document.getElementById("submit-btn");
+    const trackBtn = document.getElementById("track-btn");
+    const dashboardView = document.getElementById("dashboard-view");
+    const applicationView = document.getElementById("application-view");
+    const applicationStep2 = document.getElementById("application-step2");
+    const applicationStep3 = document.getElementById("application-step3");
+    const applicationStep4 = document.getElementById("application-step4");
+    const applicationSuccess = document.getElementById("application-success");
+    const progressCount = document.getElementById("progress-count");
+    const progressTotal = document.getElementById("progress-total");
+    const progressPercent = document.getElementById("progress-percent");
+    const docItems = document.querySelectorAll(".doc-item");
+    const uploadButtons = document.querySelectorAll(".upload-btn");
+
+    const showApplication = () => {
+      dashboardView.classList.add("view-hidden");
+      applicationView.classList.remove("view-hidden");
+      applicationStep2.classList.add("view-hidden");
+      applicationStep3.classList.add("view-hidden");
+      applicationStep4.classList.add("view-hidden");
+      applicationSuccess.classList.add("view-hidden");
+    };
+
+    const showDashboard = () => {
+      applicationView.classList.add("view-hidden");
+      applicationStep2.classList.add("view-hidden");
+      applicationStep3.classList.add("view-hidden");
+      applicationStep4.classList.add("view-hidden");
+      applicationSuccess.classList.add("view-hidden");
+      dashboardView.classList.remove("view-hidden");
+    };
+
+    const showStep2 = () => {
+      applicationView.classList.add("view-hidden");
+      applicationStep2.classList.remove("view-hidden");
+      applicationStep3.classList.add("view-hidden");
+      applicationStep4.classList.add("view-hidden");
+      applicationSuccess.classList.add("view-hidden");
+    };
+
+    const showStep1 = () => {
+      applicationStep2.classList.add("view-hidden");
+      applicationView.classList.remove("view-hidden");
+    };
+
+    const showStep3 = () => {
+      applicationStep2.classList.add("view-hidden");
+      applicationStep3.classList.remove("view-hidden");
+      applicationStep4.classList.add("view-hidden");
+      applicationSuccess.classList.add("view-hidden");
+    };
+
+    const backToStep2 = () => {
+      applicationStep3.classList.add("view-hidden");
+      applicationStep2.classList.remove("view-hidden");
+    };
+
+    const showStep4 = () => {
+      applicationStep3.classList.add("view-hidden");
+      applicationStep4.classList.remove("view-hidden");
+      applicationSuccess.classList.add("view-hidden");
+    };
+
+    const backToStep3 = () => {
+      applicationStep4.classList.add("view-hidden");
+      applicationStep3.classList.remove("view-hidden");
+    };
+
+    const showSuccess = () => {
+      applicationStep4.classList.add("view-hidden");
+      applicationSuccess.classList.remove("view-hidden");
+    };
+
+    newAppBtn.addEventListener("click", showApplication);
+    backBtn.addEventListener("click", showDashboard);
+    continueBtn.addEventListener("click", showStep2);
+    step2BackBtn.addEventListener("click", showStep1);
+    step2ContinueBtn.addEventListener("click", showStep3);
+    step3BackBtn.addEventListener("click", backToStep2);
+    step3ContinueBtn.addEventListener("click", showStep4);
+    step4BackBtn.addEventListener("click", backToStep3);
+    submitBtn.addEventListener("click", showSuccess);
+    if (trackBtn) {
+      trackBtn.addEventListener("click", showDashboard);
+    }
+
+    const updateProgress = () => {
+      const requiredDocs = Array.from(docItems).filter((item) => item.dataset.required === "true");
+      const uploadedDocs = requiredDocs.filter((item) => item.dataset.uploaded === "true");
+      const total = requiredDocs.length;
+      const uploaded = uploadedDocs.length;
+      const percent = total === 0 ? 0 : Math.round((uploaded / total) * 100);
+
+      if (progressCount) progressCount.textContent = uploaded;
+      if (progressTotal) progressTotal.textContent = total;
+      if (progressPercent) progressPercent.textContent = `${percent}%`;
+    };
+
+    uploadButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".doc-item");
+        if (!item) return;
+        item.dataset.uploaded = "true";
+        updateProgress();
+      });
+    });
+
+    updateProgress();
+
+    const notifyToggle = document.getElementById("notify-toggle");
+    const storedNotify = localStorage.getItem("indigeeNotifyOptIn");
+
+    const setNotifyState = (isOn) => {
+      if (!notifyToggle) return;
+      notifyToggle.classList.toggle("is-on", isOn);
+      notifyToggle.classList.toggle("is-off", !isOn);
+      notifyToggle.setAttribute("aria-checked", String(isOn));
+      localStorage.setItem("indigeeNotifyOptIn", String(isOn));
+    };
+
+    if (notifyToggle) {
+      const initialState = storedNotify === null ? true : storedNotify === "true";
+      setNotifyState(initialState);
+
+      notifyToggle.addEventListener("click", () => {
+        const isOn = notifyToggle.classList.contains("is-on");
+        setNotifyState(!isOn);
+      });
+
+      notifyToggle.addEventListener("keydown", (event) => {
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          const isOn = notifyToggle.classList.contains("is-on");
+          setNotifyState(!isOn);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

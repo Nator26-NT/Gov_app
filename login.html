@@ -1,96 +1,304 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | Indigent Support</title>
+  <title>Login | InDigee</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f6f6f6;
-      padding: 40px 20px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
       display: flex;
+      align-items: center;
       justify-content: center;
+      padding: 40px 20px;
+      background-image: url("../InDigee-Background-Image.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
     }
-    .content {
+
+    .page {
       width: 100%;
-      max-width: 400px;
-    }
-    .logo {
-      width: 100px;
-      display: block;
-      margin-bottom: 20px;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-    .form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .form-group {
-      margin-bottom: 16px;
-    }
-    label {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    .btn {
-      width: 100%;
-      background: black;
-      color: white;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .bottom-text {
+      max-width: 720px;
       text-align: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      color: #000;
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: 0.4px;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      transform: rotate(45deg);
+    }
+
+    .logo-mark span {
+      display: block;
+      background: #000;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 22px;
+      padding: 30px 38px 26px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 22px;
+      text-align: left;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .required {
+      color: #c40000;
+    }
+
+    .tile {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #e5e5e5;
+      border: 1px solid #cfcfcf;
+      color: #000;
+      font-weight: 600;
+      text-align: center;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tile:focus {
+      outline: none;
+      border-color: #000;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .hint {
+      margin: 0;
+      font-size: 12px;
+      color: #111;
+      font-style: italic;
+      text-align: left;
+    }
+
+    .actions {
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .bottom-text {
+      margin: 0;
       font-size: 13px;
-      margin-top: 12px;
+      color: #000;
+      text-align: center;
+      width: 100%;
+    }
+
+    .bottom-text a {
+      color: #000;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 24px 20px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: span 1;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="content">
-    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='black'/><text x='50%' y='55%' fill='white' font-size='12' text-anchor='middle'>InDigee</text></svg>" class="logo" alt="Logo" />
-    <h2>Login</h2>
-    <div class="form">
-      <div class="form-group">
-        <label for="id">SA ID Number *</label>
-        <input type="text" id="id" placeholder="13-digit SA ID"/>
-      </div>
-      <div class="form-group">
-        <label for="pass">Password *</label>
-        <input type="password" id="pass" placeholder="Enter password"/>
-      </div>
-      <button class="btn" onclick="validateLogin()">Secure Login</button>
-      <p class="bottom-text">New to Portal? <a href="register.html">Register</a></p>
+  <div class="page">
+    <div class="logo" aria-label="InDigee">
+      <span class="logo-mark" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      InDigee
+    </div>
+
+    <div class="card">
+      <h2>Login</h2>
+
+      <form id="login-form" class="form-grid">
+        <div class="field">
+          <label for="sa-id" class="sr-only">SA ID Number (required)</label>
+          <input
+            class="tile"
+            type="text"
+            id="sa-id"
+            name="sa_id"
+            inputmode="numeric"
+            minlength="13"
+            maxlength="13"
+            pattern="\\d{13}"
+            placeholder="SA ID Number"
+            required
+          />
+          <p class="hint">13-digit ID number as per Home Affairs</p>
+        </div>
+
+        <div class="field">
+          <label for="email" class="sr-only">Email Address</label>
+          <input
+            class="tile"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email Address"
+          />
+        </div>
+
+        <div class="field full">
+          <label for="password" class="sr-only">Password (required)</label>
+          <input
+            class="tile"
+            type="password"
+            id="password"
+            name="password"
+            minlength="5"
+            placeholder="Password"
+            required
+          />
+          <p class="hint">Minimum 5 characters</p>
+        </div>
+
+        <div class="actions full">
+          <button class="btn" type="submit">Secure Login</button>
+          <p class="bottom-text">New to Portal? <a href="register.html">Register</a></p>
+        </div>
+      </form>
     </div>
   </div>
 
   <script>
-    function validateLogin() {
-      const id = document.getElementById("id").value.trim();
-      const pass = document.getElementById("pass").value.trim();
-      if (!/^\d{13}$/.test(id)) return alert("Enter valid 13-digit SA ID.");
-      if (pass.length < 5) return alert("Password must be at least 5 characters.");
-      alert("Login successful! (Mock)");
+    const loginForm = document.getElementById("login-form");
+
+    if (loginForm) {
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!loginForm.checkValidity()) {
+          loginForm.reportValidity();
+          return;
+        }
+
+        const saId = loginForm.elements.sa_id.value.trim();
+        const email = loginForm.elements.email.value.trim().toLowerCase();
+        const password = loginForm.elements.password.value.trim();
+
+        if (!saId && !email) {
+          alert("Enter your SA ID or Email Address.");
+          return;
+        }
+
+        if (saId && !/^\d{13}$/.test(saId)) {
+          alert("Enter a valid 13-digit SA ID.");
+          return;
+        }
+
+        if (password.length < 5) {
+          alert("Password must be at least 5 characters.");
+          return;
+        }
+
+        const storedUsers = JSON.parse(localStorage.getItem("indigeeUsers") || "[]");
+        const matchedUser = storedUsers.find((user) => {
+          const matchesId = saId && user.saId === saId;
+          const matchesEmail = email && user.email === email;
+          return (matchesId || matchesEmail) && user.password === password;
+        });
+
+        if (!matchedUser) {
+          alert("Invalid login details. Please check your SA ID/Email and password.");
+          return;
+        }
+
+        localStorage.setItem("indigeeLastUser", matchedUser.saId);
+        alert("Login successful! Redirecting to dashboard.");
+        window.location.href = "dashboard.html";
+      });
     }
   </script>
 </body>
 </html>
-
